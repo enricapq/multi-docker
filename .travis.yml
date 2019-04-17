@@ -1,0 +1,27 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  # travis run dockerfile.dev for testing
+  # last ./client is for specifying the build context (usually is . for the current working dir)
+  - docker build -t enricapq/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  # test section. NB npm test enter in watch mode, so for exit add -- --coverage;
+  # in this way it will exit with status code 0 or not zero (if test failed)
+  - docker run enricapq/react-test npm test -- --coverage
+
+after_success:
+  # build production version of each of sub projects using the production Dockerfile
+  - docker build -t enricapq/multi-client ./client
+  - docker build -t enricapq/multi-nginx ./nginx
+  - docker build -t enricapq/multi-server ./server
+  - docker build -t enricapq/multi-worker ./worker
+  # Login into the Docker CLI. Pass ENV vars using Travis
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # take those images and push them to docker hub
+  - docker push enricapq/multi-client
+  - docker push enricapq/multi-nginx
+  - docker push enricapq/multi-server
+  - docker push enricapq/multi-worker
