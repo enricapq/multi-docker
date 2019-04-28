@@ -1,1 +1,7 @@
 create-react-app client
+
+Dockerrun.aws.json --> customized to work with AWS: pull images (already built) from docker hub and EBS
+
+AWS RDS:
+db: fibvalues
+postgres/postgrespassword
