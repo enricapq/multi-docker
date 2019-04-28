@@ -19,7 +19,7 @@
       "name": "worker",
       "image": "enricapq/multi-worker",
       "hostname": "worker",
-      "essential":false,
+      "essential": false,
       "memory": 128
     },
     {
