@@ -18,7 +18,7 @@ after_success:
   - docker build -t enricapq/multi-nginx ./nginx
   - docker build -t enricapq/multi-server ./server
   - docker build -t enricapq/multi-worker ./worker
-  # Login into the Docker CLI. Pass ENV vars using Travis
+  # Login into the Docker CLI. Pass ENV variables using Travis
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # take those images and push them to docker hub
   - docker push enricapq/multi-client
